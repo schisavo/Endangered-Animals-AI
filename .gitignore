@@ -1,0 +1,22 @@
+# Entorno
+.venv/
+__pycache__/
+*.pyc
+
+# Modelos pesados
+models/
+*.h5
+*.keras
+
+# Streamlit
+.streamlit/
+
+# Datos grandes
+data/*
+!data/*.csv
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+assets/train
