@@ -6,9 +6,9 @@ from state.session import init_session
 from services.model import get_model, predict
 from services.img_preprocessing import preprocess_image
 
-from ui.components.bar_char import show_bar_chart
-from ui.components.confidence import show_confidence
-from ui.components.confidence_trend import show_confidence_trend
+from components.bar_char import show_bar_chart
+from components.confidence import show_confidence
+from components.confidence_trend import show_confidence_trend
 
 
 animal_names = [
@@ -34,10 +34,10 @@ with col1:
     st.image("https://cdn-icons-png.flaticon.com/512/4712/4712027.png", width=100)
 
     st.markdown("""
-    Analyze an image of the 11 threatened species and identify 
-    which class it belongs to with 78% accuracy.
-        🐘 🐆 🐒 🦁 🦧 🐼  🦏  
-    """)
+            Analyze an image of the 11 :red[threatened] :green[species] and identify 
+            which class it belongs to with :blue[78% accuracy].
+            🐘 🐆 🐒 🦁 🦧 🐼  🦏  
+        """)
 
     uploaded_file = st.file_uploader(
         "Upload an image of an animal",
@@ -79,7 +79,7 @@ with col2:
     with top1:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.header("Probabilities", divider="green")
-        st.subheader("Class Probability", divider="green")
+        st.subheader("Class Probability", divider=False)
 
         show_bar_chart(animal_names, st.session_state.predictions)
 
@@ -100,5 +100,9 @@ with col2:
         st.session_state.history_full,
         animal_names
     )
+
+    #st.metric(
+    #    "Line", 10, st.session_state.history_full, chart_data=st.session_state.history_full, chart_type="line", border=True
+    #)
 
     st.markdown('</div>', unsafe_allow_html=True)

@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 
 # Mostrar dataset de World Wild Life
-st.title("World Wildlife Dataset Visualization")
+st.header("World Wildlife Dataset Visualization", divider="green")
 
 try:
     dataset_path = "./data/World Wildlife Species.csv"

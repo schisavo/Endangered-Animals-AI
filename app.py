@@ -27,7 +27,7 @@ div[data-testid="stSidebarNav"] li {{
 /* Botón interno */
 div[data-testid="stSidebarNav"] a {{
     border-radius: 12px;
-    padding: 10px 12px;
+    padding: 1px 12px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -71,11 +71,26 @@ div[data-testid="stSidebarNav"] span {{
 pg = st.navigation([
     st.Page("pages/Main_Menu.py", title="Dashboard", icon=":material/home:"),
     st.Page("pages/Graphics_Species.py", title="Graphics Species", icon=":material/smart_toy:"),
-    st.Page("pages/Graphics_World_Wildlife.py", title="Graphics World Wildlife", icon=":material/analytics:"), ])
+    st.Page("pages/Graphics_World_Wildlife.py", title="Graphics World Wildlife", icon=":material/analytics:"), 
+    st.Page("pages/Map_Graphics_Species.py", title="Map World Wildlife", icon=":material/map:") ])
+
+st.sidebar.table(
+    {
+        ":material/folder: Project": "**Streamlit** - The fastest way to build data apps",
+        ":material/code: Repository": "[github.com/streamlit/streamlit](https://github.com/streamlit/streamlit)",
+        ":material/new_releases: Version": ":gray-badge[1.45.0]",
+        ":material/license: License": ":green-badge[Apache 2.0]",
+        ":material/group: Maintainers": ":blue-badge[Core Team] :violet-badge[Community]",
+    },
+    border="horizontal",
+    width="stretch",
+)
 
 st.sidebar.markdown("""
 <div class="sidebar-divider"></div>
 """, unsafe_allow_html=True)
+
+
 
 pg.run()
 

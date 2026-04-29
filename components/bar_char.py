@@ -7,4 +7,4 @@ def show_bar_chart(animal_names, predictions):
         "Probability": predictions
     })
 
-    st.bar_chart(data.set_index("Animal"))
+    st.bar_chart(data.set_index("Animal"), color="#215B63")

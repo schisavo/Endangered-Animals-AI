@@ -5,7 +5,7 @@ import random
 
 # Mostar dataset de Species
 
-st.title("Endangered Species Dataset Visualization")
+st.header("Endangered Species Dataset Visualization", divider="green")
 
 try:
     dataset_path = "./data/Species.csv"
@@ -53,7 +53,12 @@ try:
         ax.set_xticks(range(0,21))
         st.pyplot(fig)
 
+    if st.checkbox("Map of Species"):
+        animals = set()
+        animals_type_dic = { }
+
 except FileNotFoundError:
     st.error("The file `Species.csv` was not found. Please ensure it is in the correct directory.")
 except Exception as e:
     st.error(f"An error occurred while loading the dataset: {e}")
+
