@@ -9,7 +9,7 @@ df = pd.read_csv("data/Species_clean.csv")
 df = df.dropna(subset=["lat", "lon"])
 
 # ---------------- TITLE ----------------
-st.title("🌍 Endangered Species Map")
+st.header("🌍 Endangered Species Map", divider="green")
 
 # ---------------- FILTER ----------------
 types = st.multiselect(

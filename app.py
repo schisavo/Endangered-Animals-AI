@@ -74,17 +74,22 @@ pg = st.navigation([
     st.Page("pages/Graphics_World_Wildlife.py", title="Graphics World Wildlife", icon=":material/analytics:"), 
     st.Page("pages/Map_Graphics_Species.py", title="Map World Wildlife", icon=":material/map:") ])
 
-st.sidebar.table(
-    {
-        ":material/folder: Project": "**Streamlit** - The fastest way to build data apps",
-        ":material/code: Repository": "[github.com/streamlit/streamlit](https://github.com/streamlit/streamlit)",
-        ":material/new_releases: Version": ":gray-badge[1.45.0]",
-        ":material/license: License": ":green-badge[Apache 2.0]",
-        ":material/group: Maintainers": ":blue-badge[Core Team] :violet-badge[Community]",
-    },
-    border="horizontal",
-    width="stretch",
-)
+st.sidebar.markdown("""
+### 🌿 Endangered Animals Evaluation
+
+![Version](https://img.shields.io/badge/version-1.0.0-67C090)
+![License](https://img.shields.io/badge/license-Apache_2.0-AAFFC7)
+![Status](https://img.shields.io/badge/status-active-215B63)
+
+---
+
+📁 **Project**  
+Endangered Animals Evaluation  
+
+👥 **Maintainers**  schisavo  
+
+---
+""")
 
 st.sidebar.markdown("""
 <div class="sidebar-divider"></div>
