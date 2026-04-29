@@ -1,0 +1,15 @@
+# 🐾 Endangered Animals AI Dashboard
+
+Dashboard en Streamlit para clasificar animales en peligro de extinción usando CNN.
+
+## 🚀 Features
+- Clasificación de imágenes
+- Dashboard interactivo
+- Visualización de probabilidades
+
+## 🧠 Modelo
+CNN entrenado con 11 especies
+
+## ▶️ Ejecutar
+```bash
+streamlit run app/main.py
