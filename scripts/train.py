@@ -7,17 +7,18 @@ Versiones anteriores con modelos SVM se han eliminado para mayor claridad.
 """
 import os
 import json
+import argparse
 import numpy as np
 from PIL import Image, ImageOps
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
 
-from keras import layers, models
+from keras import layers, models, Input
 
 # Funcion para cargar y generar variaciones de imágenes
 # --- Constantes de Configuración ---
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(_SCRIPT_DIR, "data")
+DATA_DIR = os.path.join(_SCRIPT_DIR, "..", "assets", "train")
 IMAGE_SIZE = (128, 128)
 MAX_IMAGES_PER_CLASS = 400
 TEST_SPLIT_SIZE = 0.2
@@ -25,7 +26,7 @@ VALIDATION_SPLIT_SIZE = 0.2
 RANDOM_STATE = 42
 EPOCHS = 15
 BATCH_SIZE = 32
-MODEL_FILENAME = os.path.join(_SCRIPT_DIR, "modelo_cnn_entrenado.h5")
+MODEL_FILENAME = os.path.join(_SCRIPT_DIR, "cnn_model.h5")
 CLASS_NAMES_FILENAME = os.path.join(_SCRIPT_DIR, "class_names.json")
 
 # --- Funciones Auxiliares ---
@@ -90,7 +91,9 @@ def build_cnn_model(input_shape, num_classes):
         tensorflow.keras.Model: El modelo CNN compilado.
     """
     model = models.Sequential([
-        layers.Conv2D(32, (3, 3), activation='relu', input_shape=input_shape),
+        Input(shape=input_shape),
+
+        layers.Conv2D(32, (3, 3), activation='relu'),
         layers.MaxPooling2D((2, 2)),
 
         layers.Conv2D(64, (3, 3), activation='relu'),
@@ -111,28 +114,48 @@ def build_cnn_model(input_shape, num_classes):
     return model
 
 def main():
-    """Función principal para cargar datos, entrenar y evaluar el modelo."""
-    # 1. Cargar y preprocesar datos
+    parser = argparse.ArgumentParser(description="Entrenar modelo CNN de animales")
+    
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="cnn_model.keras",
+        help="Nombre del archivo del modelo a guardar"
+    )
+
+    args = parser.parse_args()
+
+    # Asegurar extensión válida automáticamente
+    if not args.output.endswith((".h5", ".keras")):
+        args.output += ".keras"
+
+    PROJECT_ROOT = os.path.abspath(os.path.join(_SCRIPT_DIR, ".."))
+    MODELS_DIR = os.path.join(PROJECT_ROOT, "models")
+
+    os.makedirs(MODELS_DIR, exist_ok=True)
+
+    model_path = os.path.join(MODELS_DIR, args.output)
+
+    # 1. Cargar datos
     print("Cargando y aumentando imágenes...")
     X, y, class_names = load_images_with_augmentation(DATA_DIR, IMAGE_SIZE, MAX_IMAGES_PER_CLASS)
-    X = X / 255.0  # Normalización
-    y = tf.keras.utils.to_categorical(y, num_classes=len(class_names))  # One-hot encoding
+    
+    X = X / 255.0
+    y = tf.keras.utils.to_categorical(y, num_classes=len(class_names))
 
-    print(f"Forma de X: {X.shape}, Forma de y: {y.shape}")
-    print(f"Clases encontradas ({len(class_names)}): {class_names}")
-
-    # 2. Dividir el dataset
+    # 2. Split
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=TEST_SPLIT_SIZE, random_state=RANDOM_STATE
     )
 
-    # 3. Construir y entrenar el modelo
-    print("\nConstruyendo el modelo CNN...")
-    model = build_cnn_model(input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3), num_classes=len(class_names))
-    model.summary()
+    # 3. Modelo
+    model = build_cnn_model(
+        input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3),
+        num_classes=len(class_names)
+    )
 
-    print("\nIniciando entrenamiento...")
-    history = model.fit(
+    print("\nEntrenando modelo...")
+    model.fit(
         X_train, y_train,
         validation_split=VALIDATION_SPLIT_SIZE,
         epochs=EPOCHS,
@@ -140,17 +163,16 @@ def main():
     )
 
     # 4. Evaluación
-    print("\nEvaluando el modelo con el conjunto de prueba...")
-    test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
-    print(f"Precisión en el conjunto de prueba (Test Accuracy): {test_acc:.4f}")
+    loss, acc = model.evaluate(X_test, y_test)
+    print(f"Accuracy: {acc:.4f}")
 
-    # 5. Guardar el modelo y los nombres de las clases
-    model.save(MODEL_FILENAME)
-    print(f"Modelo CNN guardado en: {MODEL_FILENAME}")
+    # 5. Guardar modelo dinámico
+    model.save(model_path)
+    print(f"Modelo guardado en: {model_path}")
 
+    # Guardar clases
     with open(CLASS_NAMES_FILENAME, 'w') as f:
         json.dump(class_names, f)
-    print(f"Nombres de las clases guardados en: {CLASS_NAMES_FILENAME}")
 
 if __name__ == "__main__":
     main()

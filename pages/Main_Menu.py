@@ -17,7 +17,12 @@ animal_names = [
 ]
 
 # ---------------- INIT ----------------
-model = get_model()
+try:
+    model = get_model()
+except Exception as e:
+    st.error(f"❌ Error cargando el modelo: {e}")
+    st.info("👉 Entrena primero el modelo con: `python scripts/train.py`")
+    st.stop()  # 🔥 esto detiene la app aquí
 init_session(animal_names)
 
 # ---------------- HEADER ----------------
@@ -51,7 +56,8 @@ with col1:
         if st.button("Evaluate"):
             try:
                 img_array = preprocess_image(image)
-                preds = predict(model, img_array)
+                with st.spinner("🧠 Analizando imagen..."):
+                    preds = predict(model, img_array)
 
                 st.session_state.predictions = preds
 

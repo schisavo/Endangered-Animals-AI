@@ -1,15 +1,73 @@
-# 🐾 Endangered Animals AI Dashboard
+# 🌿 Endangered Animals Evaluation
 
-Dashboard en Streamlit para clasificar animales en peligro de extinción usando CNN.
+- 🚧 En progreso
+
+![Version](https://img.shields.io/badge/version-1.0.0-67C090)
+![License](https://img.shields.io/badge/license-Apache_2.0-AAFFC7)
+![Status](https://img.shields.io/badge/status-active-215B63)
+
+## 📌 Description
+---
+A Streamlit-based interactive dashboard that uses Artificial Intelligence to classify endangered animal species and visualize global biodiversity data.
 
 ## 🚀 Features
-- Clasificación de imágenes
-- Dashboard interactivo
-- Visualización de probabilidades
+---
+- 🧠 AI image classification model
+- 🌍 Interactive world map of endangered species
+- 📊 Data visualization dashboards
+- 🎯 Filtering by species type
+- 📈 Prediction confidence analytics
 
-## 🧠 Modelo
-CNN entrenado con 11 especies
+## 🛠️ Tech Stack
+---
+- Python
+- Streamlit
+- TensorFlow / Keras
+- Pandas
+- PyDeck
+
+## 📂 Project Structure
+---
+Endangered-Animals-Evaluation/
+    ├── app.py
+    ├── requirements.txt
+    ├── README.py
+    ├── .python-version.py
+    ├── .gitignore
+    ├── utils/
+            └── image_processing.py
+    ├── state/
+            └── session.py
+    ├── services/
+            ├── img_preprocessing.py
+            └── model.py
+    ├── scripts/
+            └── train_model.py
+    ├── pages/
+        ├── Main_Menu.py
+        ├── Graphics_Species.py
+        ├── Map_Graphics_Species.py
+        └── Graphics_World_Wildlife.py
+    ├── notebooks/
+    ├── models/
+            └── cnn_model.h5
+    ├── data/
+            ├── Species_clean.csv
+            ├── Species.csv
+            └── World Wildlife Species.csv
+    ├── components/
+            ├── bar_char.py
+            ├── confidence_trend.py
+            └── confidence.py
+    ├── assets/
+            └── forest.jpg
+
+
+
 
 ## ▶️ Ejecutar
-```bash
-streamlit run app/main.py
+---
+### Run Project
+    streamlit run app/main.py
+### Create CNN Ai Model
+    python scripts/train.py --output model_name
